@@ -1,20 +1,23 @@
-
-import logo from "../../assets/images/logo.png"
-import { Outlet } from 'react-router';
+import { Outlet } from "react-router";
+import logo from "../../assets/images/logo.png";
 
 const AuthLayout = () => {
   return (
     <>
-       <div className="flex flex-col items-center justify-center w-full p-10">
-        <div className="flex border-white rounded-4xl bg-white flex-col w-95 h-130 justify-center items-center mt-10 shadow-2xl">
-          <div className="flex h-38">
-            <img src={logo} alt="" className="h-40" />
+      <div className="flex w-full h-screen bg-gray-300 items-center justify-center">
+        <div className="flex flex-col bg-gray-100 p-5 gap-5 w-full max-w-5xl mx-auto shadow-lg rounded-md">
+          <div className="flex w-full my-4 items-center justify-center">
+            <img
+              src={logo}
+              alt="logo"
+              className="h-24 w-24 rounded-full object-cover"
+            />
           </div>
           <Outlet />
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AuthLayout
+export default AuthLayout;

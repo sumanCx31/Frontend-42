@@ -11,12 +11,20 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@hookform/resolvers": "^5.1.1",
     "@tailwindcss/vite": "^4.1.10",
     "antd": "^5.26.2",
+    "axios": "^1.10.0",
+    "flowbite": "^3.1.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.59.0",
     "react-router": "^7.6.2",
-    "tailwindcss": "^4.1.10"
+    "sonner": "^2.0.6",
+    "sooner": "^1.1.4",
+    "tailwindcss": "^4.1.10",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

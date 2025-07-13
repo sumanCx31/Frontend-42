@@ -1,62 +1,114 @@
-import { NavLink } from "react-router";
-// import AuthLayout from "../../pages/layout/AuthLayout";
-// import AuthLayout from "../../pages/layout/AuthLayout";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Typography } from "antd";
+import { useForm } from "react-hook-form";
+import { NavLink, Link } from "react-router"; // ✅ use 'react-router-dom' not 'react-router'
+import { EmailInput, PasswordInput } from "../form/FormInput";
+import type { ICredentials } from "./contract";
+import { CredentialsDTO } from "./contract";
+import authSvc from "../../service/auth.service";
+import { useNavigate } from "react-router"; // ✅ correct import
+import { useAuth } from "../../context/authContext";
+import { toast } from "sonner";
 
-const LoginForm = () => {
+const Loginform = () => {
+  const navigate = useNavigate(); 
+  
+  const { control, handleSubmit, formState: { errors } } = useForm<ICredentials>({
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+    resolver: yupResolver(CredentialsDTO)
+  });
+  
+  const submitForm = async (credentials: ICredentials) => {
+    try {
+      const response = await authSvc.postRequest('/auth/login', credentials);
+      const user = response.data;
+      console.log(user)
+
+
+      toast.success(response.data.message,{description:"Login successful!"});
+      navigate("/admin");
+
+      console.log(response);
+
+    } catch (exception) {
+      console.error({ exception });
+      toast.error("Login failed. Please try again.");
+    }
+  };
+
+  const { loggedInUser } = useAuth();
+  console.log(loggedInUser);
+
   return (
-   <>
-   <h1 className="font-semibold text-xl">Login</h1>
-     <div className="flex w-60 gap-4 items-center">
-            <form
-              action="/"
-              className="flex flex-col font-semibold text-sm p-4"
-            >
-              <div className="flex gap-2 p-1">
-                <label htmlFor="username:">
-                  Username:
-                  <input
-                    type="text"
-                    className="border rounded-xl h-7 w-full border-gray-400 hover:ring-1 ring-green-500 text-center p-2"
-                  />
-                </label>
-              </div>
-              <div className="flex w-full gap-2 p-1">
-                <label htmlFor="password:">
-                  Password:
-                  <input
-                    type="password"
-                    className="border rounded-xl text-center p-2 h-7 w-full border-gray-400 hover:ring-1 ring-green-500"
-                  />
-                </label>
-              </div>
-              <div className="flex justify-end py-2">
-                <NavLink to="forget-password" className="text-blue-500 hover:underline transition hover:scale-96 hover:cursor-pointer font-mono">forget password?</NavLink>
-              </div>
-              <div className="flex gap-6 py-4">
-                <div>
-                  <button className="h-7 w-25 bg-red-500 border-amber-50 rounded-xl transition hover:scale-96 hover:bg-red-600 text-white">
-                    Cancel
-                  </button>
-                </div>
-                <div>
-                  <button className="h-7 w-25 bg-teal-500  border-amber-50 rounded-xl transition hover:scale-96 hover:bg-teal-600 text-white">
-                    Submit
-                  </button>
-                </div>
-              </div>
-              <div className="flex">
-                <p className="mx-1">Don't have an Account?</p>
-                <NavLink
-                  to="/register"
-                  className="text-blue-500 transition hover:scale-96 hover:underline font-mono hover:cursor-pointer"
-                >
-                  Register
-                </NavLink>
-              </div>
-            </form>
-          </div>
-   </>
-  )
-}
+    <>
+      <div className="flex flex-col w-full gap-5 border-b border-indigo-900 pb-2">
+        <Typography.Title level={1} className="text-indigo-950 text-shadow-md text-shadow-indigo-400">
+          Login Page
+        </Typography.Title>
+      </div>
 
-export default LoginForm
+      <form onSubmit={handleSubmit(submitForm)} className="flex flex-col gap-5 w-full">
+        <div className="flex w-full gap-7">
+          <label htmlFor="username" className="w-1/4 font-semibold">
+            Username:
+          </label>
+          <div className="w-3/4">
+            <EmailInput control={control} name="email" errMsg={errors?.email?.message as string} />
+          </div>
+        </div>
+
+        <div className="flex w-full gap-7">
+          <label htmlFor="password" className="w-1/4 font-semibold">
+            Password:
+          </label>
+          <div className="w-3/4">
+            <PasswordInput control={control} name="password" errMsg={errors?.password?.message as string} />
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <NavLink to="/forget-password" className="text-sm italic text-teal-700 hover:underline hover:cursor-pointer transition hover:scale-95">
+            Forget Password?
+          </NavLink>
+        </div>
+
+        <div className="flex gap-5 w-full">
+          <Button
+            variant="solid"
+            size="large"
+            htmlType="reset"
+            className="w-full bg-red-800! border-red-800! hover:bg-red-900 transition hover:scale-95 text-white!"
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="solid"
+            size="large"
+            htmlType="submit"
+            className="w-full bg-teal-800! border-teal-800! hover:bg-teal-900 transition hover:scale-95 text-white!"
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
+
+      <div className="flex items-center my-2">
+        <span className="flex-1 h-px bg-gray-300"></span>
+        <span className="px-4 text-gray-900">or</span>
+        <span className="flex-1 h-px bg-gray-300"></span>
+      </div>
+
+      <p className="text-center text-sm italic">
+        Don't have an account?{" "}
+        <Link to="/register" className="text-teal-700 hover:underline hover:cursor-pointer transition hover:scale-95">
+          Register now!
+        </Link>
+      </p>
+    </>
+  );
+};
+
+export default Loginform;

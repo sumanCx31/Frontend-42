@@ -1,29 +1,59 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import ActivateUser from "../pages/auth/ActivateUser";
 import AuthLayout from "../pages/layout/AuthLayout";
 import LoginForm from "../components/auth/loginForm";
 import RegisterForm from "../components/auth/registerForm";
-import ActivateUser from "../pages/auth/ActivateUser";
 import ForgetPasswordForm from "../components/auth/forgetPasswordForm";
-import ErrorNotFound from "../pages/error.404";
 import UserLayout from "../pages/layout/UserLayout";
-import { AdminMenu, SellerMenu } from "./menu-Item";
+import ErrorNotFound from "../pages/error.404";
+import { AdminMenu, SellerMenu } from "../config/menu-Item";
+import { Toaster } from "sonner";
+import { AuthProvider } from "../context/authContext";
+
+const routeConfig = createBrowserRouter([
+  {
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true,
+        element: <LoginForm />,
+      },
+      {
+        path: "register",
+        element: <RegisterForm />,
+      },
+      {
+        path: "forget-password",
+        element: <ForgetPasswordForm />,
+      },
+      {
+        path: "activate/:token",
+        element: <ActivateUser />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <UserLayout menu={AdminMenu} />,
+  },
+  {
+    path: "/seller",
+    element: <UserLayout menu={SellerMenu} />,
+  },
+  {
+    path: "*",
+    element: <ErrorNotFound />,
+  },
+]);
 
 const RouterConfig = () => {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" Component={AuthLayout}>
-            <Route index={true} Component={LoginForm} />
-            <Route path="register" Component={RegisterForm} />
-            <Route path="forget-password" Component={ForgetPasswordForm} />
-            <Route path="activate" Component={ActivateUser} />
-          </Route>
-          <Route path="admin" element={<UserLayout menu={AdminMenu}/>}/>
-          <Route path="seller" element={<UserLayout menu={SellerMenu}/>}/>
-          <Route path="*" Component={ErrorNotFound}/>
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster richColors closeButton />
+        <RouterProvider router={routeConfig} />
+      </AuthProvider>
     </>
   );
 };
