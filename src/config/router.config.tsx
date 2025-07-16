@@ -8,7 +8,8 @@ import UserLayout from "../pages/layout/UserLayout";
 import ErrorNotFound from "../pages/error.404";
 import { AdminMenu, SellerMenu } from "../config/menu-Item";
 import { Toaster } from "sonner";
-import { AuthProvider } from "../context/authContext";
+import AdminDashboard from "../pages/dashboards/AdminDashboard";
+import { UserRoles } from "./constants";
 
 const routeConfig = createBrowserRouter([
   {
@@ -35,11 +36,18 @@ const routeConfig = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <UserLayout menu={AdminMenu} />,
+    element: <UserLayout role={UserRoles.ADMIN} menu={AdminMenu} />,
+    children:[
+      {
+        index:true,
+        Component:AdminDashboard
+      }
+    ]
   },
+
   {
     path: "/seller",
-    element: <UserLayout menu={SellerMenu} />,
+    element: <UserLayout role={UserRoles.SELLER} menu={SellerMenu} />,
   },
   {
     path: "*",
@@ -48,12 +56,13 @@ const routeConfig = createBrowserRouter([
 ]);
 
 const RouterConfig = () => {
+
   return (
     <>
-      <AuthProvider>
+      
         <Toaster richColors closeButton />
         <RouterProvider router={routeConfig} />
-      </AuthProvider>
+      
     </>
   );
 };

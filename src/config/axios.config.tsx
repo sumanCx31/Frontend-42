@@ -16,6 +16,17 @@ export interface SuccessResponse {
     options: any;
 }
 
+axiosInstance.interceptors.request.use((config)=>{
+    const token = localStorage.getItem("_at_42") || null;
+    if(token){
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log(token);
+    }
+    return config;
+    
+    
+})
+
 axiosInstance.interceptors.response.use(
     (response:AxiosResponse) => {
         return response.data as AxiosResponse;

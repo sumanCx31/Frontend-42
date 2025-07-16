@@ -1,14 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Typography } from "antd";
 import { useForm } from "react-hook-form";
-import { NavLink, Link } from "react-router"; // ✅ use 'react-router-dom' not 'react-router'
+import { NavLink, Link } from "react-router"; 
 import { EmailInput, PasswordInput } from "../form/FormInput";
 import type { ICredentials } from "./contract";
 import { CredentialsDTO } from "./contract";
 import authSvc from "../../service/auth.service";
 import { useNavigate } from "react-router"; // ✅ correct import
-import { useAuth } from "../../context/authContext";
 import { toast } from "sonner";
+import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 
 const Loginform = () => {
   const navigate = useNavigate(); 
@@ -20,17 +21,20 @@ const Loginform = () => {
     },
     resolver: yupResolver(CredentialsDTO)
   });
+
+  const { setLoggedInUserProfile } = useAuth();
   
   const submitForm = async (credentials: ICredentials) => {
     try {
-      const response = await authSvc.postRequest('/auth/login', credentials);
-      const user = response.data;
-      console.log(user)
+      const response = await authSvc.loginUser(credentials)
+      const userProfileResponse = await authSvc.getLoggedInProfile()
+      console.log(userProfileResponse);
+      
+      toast.success("Welcome to "+userProfileResponse.data.role+" panel!!!",{description:"You can access to different panel from here!!!"});
+      const userRole = userProfileResponse.data.role;
 
-
-      toast.success(response.data.message,{description:"Login successful!"});
-      navigate("/admin");
-
+      setLoggedInUserProfile(userProfileResponse.data)
+      navigate("/"+userRole);
       console.log(response);
 
     } catch (exception) {
@@ -38,9 +42,6 @@ const Loginform = () => {
       toast.error("Login failed. Please try again.");
     }
   };
-
-  const { loggedInUser } = useAuth();
-  console.log(loggedInUser);
 
   return (
     <>
