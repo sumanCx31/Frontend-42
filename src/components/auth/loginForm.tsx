@@ -8,7 +8,7 @@ import { CredentialsDTO } from "./contract";
 import authSvc from "../../service/auth.service";
 import { useNavigate } from "react-router"; // ✅ correct import
 import { toast } from "sonner";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 // import { useAuth } from "../../context/AuthContext";
 
 const Loginform = () => {
