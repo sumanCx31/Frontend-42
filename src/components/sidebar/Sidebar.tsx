@@ -5,10 +5,10 @@ import type { IMenuItem } from "../../config/menu-Item";
 import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = ({
-  collapsed,
   menu,
-}: Readonly<{ collapsed: boolean; menu: Array<IMenuItem>; }>) => {
+}: Readonly<{  menu: Array<IMenuItem>; }>) => {
   const {loggedInUser} = useAuth()
+  const {collapsed} = useUserLayout()
   return (
     <>
       <Sider trigger={null} collapsible collapsed={collapsed} width={300}>

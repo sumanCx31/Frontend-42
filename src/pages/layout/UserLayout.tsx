@@ -11,15 +11,15 @@ import { toast } from 'sonner';
 const { Content } = Layout;
 
 const UserLayout = ({menu}:Readonly<{menu:Array<IMenuItem>}>) => {
-    const [collapsed, setCollapsed] = useState(false);
+   
     const {loggedInUser} = useAuth()
     if(loggedInUser)
     {
       return (
         <Layout className='h-screen'>
-         <Sidebar collapsed={collapsed}  menu={menu}/>
+         <Sidebar menu={menu}/>
           <Layout>
-            <UserHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+            <UserHeader  />
             <Content
               style={{
                 margin: '24px 16px',

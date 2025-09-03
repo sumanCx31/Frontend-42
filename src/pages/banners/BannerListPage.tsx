@@ -1,17 +1,17 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import {  Input, Popconfirm, Table } from "antd";
 import { NavLink } from "react-router";
-import {PaginationDefault, Status,type IPaginationType, type IPaginationWithSearchType, type StatusType} from "../../config/constants"
+import {PaginationDefault, Status,type IImageType,type IPaginationType, type IPaginationWithSearchType, type StatusType} from "../../config/constants"
 import bannerService from "../../service/banner.service";
 import { toast } from "sonner";
 import {  useEffect, useState } from "react";
 
 export interface IBannerData {
     _id: string,
-    url?: string,
+    link?: string,
     title: string,
     status: StatusType,
-    image: string
+    image: IImageType;
 }
 
 const BannerListPage = () => {
@@ -58,7 +58,7 @@ const BannerListPage = () => {
                 title="Are you sure?"
                 description="Once delete, the content cannot be reverted back!!"
                 onConfirm={()=>{
-                   
+                   ondeleteConfirm(val)
                 }}
                 okText="Confirm!"
                 
@@ -74,6 +74,7 @@ const BannerListPage = () => {
             }
         }
     ];
+    const [loading, setLoading] = useState<boolean>(true);
      const [search, setSearch] = useState<string>('')
     const [data, setData] = useState<Array<IBannerData>>([]);
     const [pagination, setPagination] =  useState<IPaginationType>({
@@ -104,6 +105,8 @@ const BannerListPage = () => {
             toast.error("Banner cannot be fetched", {
                 description: "Banner cannot be fetched at this moment!!!"
             }) 
+        } finally {
+            setLoading(false)
         }
     }
     useEffect(() => {
@@ -116,6 +119,23 @@ const BannerListPage = () => {
 
     const onPaginationChange = async (page: number, pageSize:number) => {
             await getBannerList ({page:page, limit:pageSize})
+    }
+
+    const ondeleteConfirm = async (bannerId: string) => {
+        setLoading(true)
+        try {
+            await bannerService.deleteRequest('/banner/'+bannerId)
+            toast.success("Banner deleted successfully!!",{
+                description: "Banner deleted successfully from the content"
+            })
+            await getBannerList({page: PaginationDefault.page, limit:PaginationDefault.limit})
+        } catch {
+            toast.error("Banner cannot be deleted!!!",{
+                description:"Banner cannot be deleted due to some error..."
+            })
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(()=>{
@@ -155,6 +175,7 @@ const BannerListPage = () => {
                   rowKey={(data: IBannerData) => {
                     return data._id
                   }}
+                  loading={loading}
                   pagination={{
                    ...pagination,
                     onChange: onPaginationChange

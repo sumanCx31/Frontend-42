@@ -1,11 +1,15 @@
 import { Controller, useController } from "react-hook-form";
 import { Button, Input, Radio, Select, Upload } from "antd";
 import UploadOutlined from "@ant-design/icons/lib/icons/UploadOutlined";
+import type { Dispatch, SetStateAction } from "react";
+import { InputType } from "../../config/constants";
 
 export interface IInputProps {
   control: any;
   name: string;
   errMsg?: string;
+  type?: InputType;
+  setThumbUrl?: Dispatch<SetStateAction<string>>;
 }
 
 export interface ISingleSelectOptions {
@@ -125,7 +129,7 @@ export const RadioButtonField = ({name, control, errMsg="", options}: Readonly<I
   )
 }
 
-export const SingleFileUpload = ({control, name, errMsg=""}: Readonly<IInputProps>) => {
+export const SingleFileUpload = ({control, name, errMsg="",setThumbUrl=()=>{},}: Readonly<IInputProps>) => {
   return (
     <>
      <Controller
@@ -138,6 +142,7 @@ export const SingleFileUpload = ({control, name, errMsg=""}: Readonly<IInputProp
           className="w-full"
             beforeUpload={(file) => {
               field.onChange(file);
+              setThumbUrl(URL.createObjectURL(file));
               return false;
             }}
           >

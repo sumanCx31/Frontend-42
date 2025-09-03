@@ -3,7 +3,8 @@ import { Button } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
  
 
-const UserHeader = ({collapsed, setCollapsed}:Readonly<{collapsed: boolean, setCollapsed: Function}>) => {
+const UserHeader = () => {
+  const {collapsed,setCollapsed} = useUserLayout()
     return(
         <>
           <Header style={{ padding: 0 }} className="bg-gray-300!">
