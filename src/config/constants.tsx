@@ -35,6 +35,7 @@ export interface IPaginationWithSearchType {
     limit?: number,
     page?: number,
     search?: string | null
+    role?: UserRoles
 }
 
 export interface IImageType {

@@ -82,6 +82,24 @@ export const SellerMenu = [
   },
 ];
 
+export const CustomerMenu = [
+  {
+    key: "1",
+    icon: <HomeOutlined />,
+    label: "Dashboard",
+  },
+  {
+    key: "7",
+    icon: <ShoppingCartOutlined />,
+    label: "Orders",
+  },
+  {
+    key: "9",
+    icon: <MessageOutlined />,
+    label: <NavLink to={"/customer/chat"}>Chat</NavLink>,
+  },
+];
+
 export interface IMenuItem {
     key:string,
     icon:React.ReactNode,

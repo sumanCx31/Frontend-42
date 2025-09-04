@@ -6,7 +6,7 @@ import RegisterForm from "../components/auth/registerForm";
 import ForgetPasswordForm from "../components/auth/forgetPasswordForm";
 import UserLayout from "../pages/layout/UserLayout";
 import ErrorNotFound from "../pages/error.404";
-import { AdminMenu, SellerMenu } from "../config/menu-Item";
+import { AdminMenu, CustomerMenu, SellerMenu } from "../config/menu-Item";
 import { Toaster } from "sonner";
 import AdminDashboard from "../pages/dashboards/AdminDashboard";
 import { UserRoles } from "./constants";
@@ -55,6 +55,11 @@ const routeConfig = createBrowserRouter([
   {
     path: "/seller",
     element: <UserLayout role={UserRoles.SELLER} menu={SellerMenu} />,
+    children: [{path: "chat/", Component: ChatPage}],
+  },
+  {
+    path: "/customer",
+    element: <UserLayout role={UserRoles.CUSTOMER} menu={CustomerMenu} />,
     children: [{path: "chat/", Component: ChatPage}],
   },
   {

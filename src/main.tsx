@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import RouterConfig from "./config/router.config";
 import "./assets/css/style.css"
 import { AuthProvider } from './context/AuthContext';
+import { Provider } from 'react-redux';
 
 const rootElem = document.getElementById("root")!; 
 const reactElem = createRoot(rootElem);
@@ -13,7 +14,9 @@ const reactElem = createRoot(rootElem);
 reactElem.render(
   <React.StrictMode>
     <AuthProvider>
-    <RouterConfig/>
+      <Provider store={store}>
+        <RouterConfig/>
+    </Provider>
     </AuthProvider>
   </React.StrictMode>
 );
