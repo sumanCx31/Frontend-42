@@ -47,6 +47,7 @@ const MessageListItems = () => {
         return () => {
             socket.off("messageReceived", handleLoadChat);
             socket.off("chatUpdate", handleLoadChat);
+            
         }   
     }, []);
 
