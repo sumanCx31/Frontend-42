@@ -19,7 +19,7 @@ const UserLayout = ({menu}:Readonly<{menu:Array<IMenuItem>}>) => {
     {
       return (
         <Layout className='h-screen'>
-         <Sidebar menu={menu}/>
+         <Sidebar menu={menu} collapsed={false}/>
           <Layout>
             <UserHeader  />
             <Content

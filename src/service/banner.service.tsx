@@ -1,6 +1,9 @@
 import { axiosInstance } from "../config/axios.config";
 
 class BannerService {
+  getRequest(arg0: string, p0: { params: { page: number; limit: number; search: string | null; }; }) {
+    throw new Error("Method not implemented.");
+  }
   postRequest(arg0: string, formData: FormData, arg2: { headers: { Authorization: string; }; }) {
     throw new Error("Method not implemented.");
   }

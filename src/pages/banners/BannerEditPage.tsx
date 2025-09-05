@@ -1,31 +1,30 @@
 import { Spin } from "antd";
-import {  Status } from "../../config/constants";
+import { Status } from "../../config/constants";
 import * as Yup from "yup";
 import { toast } from "sonner";
 import bannerService from "../../service/banner.service";
 import { useNavigate, useParams } from "react-router";
-
-import type { IBannerCreateData } from "./BannerCreatePage";
 import { useEffect, useState } from "react";
 import BannerForm from "../../components/banner/BannerForm";
+import type { IBannerCreateData } from "./BannerCreatePage";
 import type { IBannerData } from "./BannerListPage";
 
+// ✅ Validation Schema
 const BannerEditDTO = Yup.object({
   title: Yup.string().min(3).max(100).required("Title is required"),
-  status: Yup.string()
-    .matches(/^(active|inactive)$/)
-    .default(Status.INACTIVE),
+  status: Yup.mixed<Status>().oneOf([Status.ACTIVE, Status.INACTIVE]),
   link: Yup.string().nullable().optional(),
   image: Yup.mixed().nullable().optional(),
 });
 
 const BannerEditPage = () => {
-   const navigate = useNavigate();
-   const [loading, setLoading] = useState<boolean>(true)
-   const params = useParams()
-   const [bannerDetail, setBannerDetail] = useState<IBannerData>();
+  const navigate = useNavigate();
+  const params = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [bannerDetail, setBannerDetail] = useState<IBannerData>();
 
-  const submitForm = async (data: IBannerCreateData) => {
+  // ✅ Submit form (use PUT instead of POST for update)
+  const submitForm = async (data: IBannerCreateData, setError: any) => {
     try {
       const formData = new FormData();
       formData.append("title", data.title);
@@ -35,9 +34,8 @@ const BannerEditPage = () => {
         formData.append("image", data.image);
       }
 
-      await bannerService.putRequest("banner/"+params.id, formData, {
+      await bannerService.putRequest(`/banner/${params.id}`, formData, {
         headers: {
-          // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
         },
       });
@@ -61,24 +59,24 @@ const BannerEditPage = () => {
     }
   };
 
-  const getBannerDetail = async() => {
+  // ✅ Get banner detail
+  const getBannerDetail = async () => {
     try {
-        const response= await bannerService.getRequest("/banner/"+params.id)
-       
-        
+      const response = await bannerService.getRequest(`/banner/${params.id}`);
+      setBannerDetail(response.data); // <-- Save fetched data
     } catch {
-        toast.error("Error!!!!",{
-            description: "Error while fetching banner data..."
-        })
-        navigate("/admin/banners")
+      toast.error("Error!!!!", {
+        description: "Error while fetching banner data...",
+      });
+      navigate("/admin/banners");
     } finally {
-       setLoading(false);
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-     getBannerDetail()
-  },[])
+    getBannerDetail();
+  }, []);
 
   return (
     <div className="flex flex-col gap-5">
@@ -87,19 +85,17 @@ const BannerEditPage = () => {
       </div>
 
       <div className="flex">
-       {
-        loading ? (
-           <div className="flex h-96 w-full justify-center items-center">
-             <Spin/>
-           </div>
+        {loading ? (
+          <div className="flex h-96 w-full justify-center items-center">
+            <Spin />
+          </div>
         ) : (
-        <BannerForm
-          submitForm={submitForm}
-          DTO={BannerEditDTO}
-          bannerDetail={bannerDetail}
-        />
-        )
-       }
+          <BannerForm
+            submitForm={submitForm}
+            DTO={BannerEditDTO}
+            bannerDetail={bannerDetail}
+          />
+        )}
       </div>
     </div>
   );

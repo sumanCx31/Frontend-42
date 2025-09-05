@@ -103,5 +103,5 @@ export const CustomerMenu = [
 export interface IMenuItem {
     key:string,
     icon:React.ReactNode,
-    label:string
+    label:string | React.ReactNode
 }

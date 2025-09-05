@@ -8,7 +8,7 @@ import BannerForm from "../../components/banner/BannerForm";
 
 export interface IBannerCreateData {
   title: string;
-  status: StatusType;
+  status: RTCStatsType;
   link: string;
   image: File | null;
 }
@@ -78,3 +78,7 @@ const BannerCreatePage = () => {
 };
 
 export default BannerCreatePage;
+
+function setError(arg0: string, arg1: { message: any; }) {
+  throw new Error("Function not implemented.");
+}

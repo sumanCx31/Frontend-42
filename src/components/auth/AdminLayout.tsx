@@ -67,6 +67,7 @@ const AdminLayout: React.FC = () => {
             }}
           >
             Content
+            
           </Content>
         </Layout>
       </Layout>

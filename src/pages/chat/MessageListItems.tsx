@@ -1,4 +1,5 @@
 import {  useEffect, useState,  } from "react";
+import socket from "../../service/chat.service"; // Adjust the path as needed
 import { useSelector } from "react-redux";
 import { useAuth, type ILoggedInUserProfile } from "../../context/authContext";
 import type { RootState } from "../../config/store.config";
@@ -19,16 +20,13 @@ const MessageListItems = () => {
     return rootStore?.user?.selectedUser as unknown as ILoggedInUserProfile;    
   });
 
-
-
- }
-
   const { loggedInUser } = useAuth();
+
   const getUserChatDetails = async () => {
     try {
-        const response = await chatService.getChatDetail(selectedUser.id)
+        const response = await chatService.getChatDetail(selectedUser.id);
         setMessages(response?.data.reverse());
-    } catch  {
+    } catch {
         console.log("Error in fetching chat details");
     }
   };
@@ -50,6 +48,10 @@ const MessageListItems = () => {
             
         }   
     }, []);
+
+  function convertDateToHumanForm(arg0: string): import("react").ReactNode {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <>
@@ -99,6 +101,6 @@ const MessageListItems = () => {
           )
         )}
     </>
-  );
+  )
 };
 export default MessageListItems;

@@ -87,11 +87,11 @@ const BannerListPage = () => {
 
     const getBannerList = async({page= PaginationDefault.page, limit=PaginationDefault.limit, search=''}:IPaginationWithSearchType) => {
         try {
-            const response = await bannerService.getRequest("/banner", {
+            const response = bannerService.getRequest("/banner", {
                 params: {
-                    page:page,
+                    page: page,
                     limit: limit,
-                    search:search
+                    search: search
                 }
             })
             setData(response.data)    
@@ -124,7 +124,7 @@ const BannerListPage = () => {
     const ondeleteConfirm = async (bannerId: string) => {
         setLoading(true)
         try {
-            await bannerService.deleteRequest('/banner/'+bannerId)
+            bannerService.getRequest('/banner/' + bannerId)
             toast.success("Banner deleted successfully!!",{
                 description: "Banner deleted successfully from the content"
             })

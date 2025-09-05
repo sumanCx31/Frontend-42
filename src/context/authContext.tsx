@@ -7,6 +7,7 @@ type AuthProviderProps = {
 };
 
 export interface ILoggedInUserProfile {
+  image: any;
   address: string;
   createdAt: string;
   createdBy: string | null;
