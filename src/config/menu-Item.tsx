@@ -9,6 +9,7 @@ import {
   ShoppingFilled,
   UserOutlined,
 } from "@ant-design/icons";
+import { NavLink } from "react-router";
 
 export const AdminMenu = [
   {
@@ -54,7 +55,7 @@ export const AdminMenu = [
   {
     key: "9",
     icon: <MessageOutlined />,
-    label: "Chat",
+    label: <NavLink to={"/admin/chat"}>Chat</NavLink>,
   },
 ];
 
@@ -77,7 +78,25 @@ export const SellerMenu = [
   {
     key: "9",
     icon: <MessageOutlined />,
-    label: "Chat",
+    label: <NavLink to={"/seller/chat"}>Chat</NavLink>,
+  },
+];
+
+export const CustomerMenu = [
+  {
+    key: "1",
+    icon: <HomeOutlined />,
+    label: "Dashboard",
+  },
+  {
+    key: "7",
+    icon: <ShoppingCartOutlined />,
+    label: "Orders",
+  },
+  {
+    key: "9",
+    icon: <MessageOutlined />,
+    label: <NavLink to={"/customer/chat"}>Chat</NavLink>,
   },
 ];
 
