@@ -35,7 +35,7 @@ const Loginform = () => {
 
       setLoggedInUserProfile(userProfileResponse.data)
       navigate("/"+userRole);
-      console.log(response);
+      console.log("response:"+response);
 
     } catch (exception) {
       console.error({ exception });

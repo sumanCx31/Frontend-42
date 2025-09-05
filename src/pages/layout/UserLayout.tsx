@@ -5,14 +5,17 @@ import { Navigate, Outlet } from "react-router";
 import Sidebar from "../../components/sidebar/Sidebar";
 import UserHeader from '../../components/header/UserHeader';
 import { type IMenuItem } from '../../config/menu-Item';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/authContext';
 import { toast } from 'sonner';
 
 const { Content } = Layout;
 
 const UserLayout = ({menu}:Readonly<{menu:Array<IMenuItem>}>) => {
     const [collapsed, setCollapsed] = useState(false);
+   
     const {loggedInUser} = useAuth()
+    console.log(loggedInUser);
+    
     if(loggedInUser)
     {
       return (

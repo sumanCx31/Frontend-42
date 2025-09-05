@@ -2,13 +2,14 @@ import logo from "../../assets/images/logo.png";
 import Sider from "antd/es/layout/Sider";
 import { Menu } from "antd";
 import type { IMenuItem } from "../../config/menu-Item";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/authContext";
 
 const Sidebar = ({
   collapsed,
   menu,
 }: Readonly<{ collapsed: boolean; menu: Array<IMenuItem>; }>) => {
-  const {loggedInUser} = useAuth()
+  const {loggedInUser} = useAuth();
+  
   return (
     <>
       <Sider trigger={null} collapsible collapsed={collapsed} width={300}>
