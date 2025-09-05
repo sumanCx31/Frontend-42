@@ -1,3 +1,4 @@
+
 import { useAuth } from "../../context/authContext"
 
 
@@ -6,7 +7,6 @@ const AdminDashboard =()=>{
 
     return (<>
        {loggedInUser?.name}
-       <h1>hello</h1>
     </>)
 }
 

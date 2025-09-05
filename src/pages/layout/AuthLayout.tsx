@@ -12,7 +12,7 @@ const AuthLayout = () => {
     
    
     <>
-      <div className="flex w-full h-screen bg-gray-300 items-center justify-center">
+      {/* <div className="flex w-full h-screen bg-gray-300 items-center justify-center">
         <div className="flex flex-col bg-gray-100 p-5 gap-5 w-full max-w-5xl mx-auto shadow-lg rounded-md">
           <div className="flex w-full my-4 items-center justify-center">
             <img
@@ -23,7 +23,8 @@ const AuthLayout = () => {
           </div>
           <Outlet />
         </div>
-      </div>
+      </div> */}
+      <Outlet />
     </>
   );
 };

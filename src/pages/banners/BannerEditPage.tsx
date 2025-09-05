@@ -34,7 +34,7 @@ const BannerEditPage = () => {
         formData.append("image", data.image);
       }
 
-      await bannerService.putRequest(`/banner/${params.id}`, formData, {
+      await bannerService.postRequest(`/banner/${params.id}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
         },
