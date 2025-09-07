@@ -28,6 +28,8 @@ const MessageListItems = () => {
         setMessages(response?.data.reverse());
     } catch {
         console.log("Error in fetching chat details");
+        console.log("I am here");
+        
     }
   };
 
