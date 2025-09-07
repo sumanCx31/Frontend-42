@@ -1,34 +1,27 @@
 import { axiosInstance } from "../config/axios.config";
 
 class BannerService {
-  getRequest(arg0: string, p0: { params: { page: number; limit: number; search: string | null; }; }) {
-    throw new Error("Method not implemented.");
+  // GET request
+  async getRequest(path: string, options?: any) {
+    return axiosInstance.get(path, options);
   }
-  postRequest(arg0: string, formData: FormData, arg2: { headers: { Authorization: string; }; }) {
-    throw new Error("Method not implemented.");
-  }
-  // For JSON data requests
+
+  // POST request with JSON
   async postJson(path: string, data: any) {
     return axiosInstance.post(path, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
-  // For multipart/form-data requests (file uploads)
+  // POST request with FormData (file upload)
   async postFormData(path: string, formData: FormData) {
-    return axiosInstance.post(path, formData, {
-      // DO NOT set Content-Type here! Axios sets it automatically with boundary.
-    });
+    return axiosInstance.post(path, formData);
   }
 
-  // You can add other HTTP methods similarly
-  async get(path: string, params?: any) {
-    return axiosInstance.get(path, { params });
+  // DELETE request
+  async deleteRequest(path: string) {
+    return axiosInstance.delete(path);
   }
-
-  // etc...
 }
 
 export default new BannerService();

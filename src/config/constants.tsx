@@ -21,6 +21,10 @@ export const PaginationDefault = {
     INACTIVE: "inactive",
   } as const;
   
+  // Add this line:
+  export type StatusType = typeof Status[keyof typeof Status];
+  
+  
   export const InputType = {
     TEXT: "text",
     PASSWORD: "password",
@@ -36,6 +40,7 @@ export const PaginationDefault = {
   export type InputType = typeof InputType[keyof typeof InputType];
   
   export interface IPaginationType {
+    [x: string]: number | undefined;
     limit: number;
     page: number;
     total: number;

@@ -15,12 +15,12 @@ export const AdminMenu = [
   {
     key: "1",
     icon: <HomeOutlined />,
-    label: "Dashboard",
+    label: <NavLink to={"/admin"}>Dashboard</NavLink>,
   },
   {
     key: "2",
     icon: <FileImageOutlined />,
-    label: "Banner",
+    label:<NavLink to={"/admin/banners"}>Banner</NavLink>,
   },
   {
     key: "3",
